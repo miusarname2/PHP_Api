@@ -36,7 +36,22 @@ Flight::route('POST /', function () {
 
 });
 
+//Borrado de fila de la DB
+Flight::route('DELETE /', function () {
+    //Toma id del JSON pasado
+    $id=(Flight::request()->data->id);
 
+    //Instrucción SQL
+    $sql="DELETE FROM `estudiantes` WHERE id=?";
+    $sentence=Flight::db()->prepare($sql);
+    //Pasamos como parametro a la DB los valores de la id a eliminar
+    $sentence->bindParam(1,$id);
+    //Se ejecuta la funcion de envio
+    $sentence->execute();
 
+    //MSJ a usuario
+    Flight::json(["Alumno $id borrado con exito"]);
+
+});
 
 Flight::start();
