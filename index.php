@@ -54,4 +54,30 @@ Flight::route('DELETE /', function () {
 
 });
 
+//Se crea el metodo de modificacion de la base de datos
+Flight::route('PUT /', function () {
+
+    //Pasamos los parametros
+    $id=(Flight::request()->data->id);
+    $Name=(Flight::request()->data->Name);
+    $surname=(Flight::request()->data->surname);
+
+    //Instrucción SQL
+    $sql="UPDATE `estudiantes` SET Name=?, surname=? WHERE id = ?;";
+    $sentence=Flight::db()->prepare($sql);
+    //Pasamos como parametro a la DB los valores a modificar
+    $sentence->bindParam(3,$id);
+    $sentence->bindParam(1,$Name);
+    $sentence->bindParam(2,$surname);
+
+    //Se ejecuta la funcion de envio
+    $sentence->execute();
+
+    Flight::jsonp(["Alumno $id modificado con exito..."]);
+
+
+});
+
+
+
 Flight::start();
