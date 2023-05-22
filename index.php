@@ -78,6 +78,17 @@ Flight::route('PUT /', function () {
 
 });
 
+Flight::route('GET /@id', function ($id) {
+    
+    $sentence=Flight::db()->prepare("SELECT * FROM `estudiantes` WHERE `id`=?");
+    $sentence->bindParam(1,$id);
+    $sentence->execute();
+    $datos=$sentence->fetchAll();
+
+    Flight::json($datos);
+
+});
+
 
 
 Flight::start();
